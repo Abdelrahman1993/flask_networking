@@ -1,10 +1,24 @@
 from __main__ import app
-from models import Subnet
+from models.subnet import Subnet
 from __main__ import subnets_schema,subnet_schema
 from __main__ import reservedIPs_schema
 from flask import Flask, request, jsonify
 import ipaddress
-from models import db
+from models.subnet import db
+
+
+# endpoint to create new subnet
+@app.route("/subnets", methods=["POST"])
+def add_subnet():
+    name = request.json['name']
+    address = request.json['address']
+    vlan_id = request.json.get('vlan_id', None)
+    subnet = Subnet(name, address, vlan_id)
+
+    db.session.add(subnet)
+    db.session.commit()
+
+    return subnet_schema.jsonify(subnet)
 
 # endpoint to show all subnets
 @app.route("/subnets", methods=["GET"])

@@ -11,14 +11,15 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
     os.path.join(basedir, 'crud.sqlite')
 
-from models import db,Subnet,ReservedIP
+# from models import Subnet,ReservedIP
+from models.subnet import Subnet
+from models.reserved_ip import ReservedIP
 
 
 ma = Marshmallow(app)
 
 class SubnetSchema(ma.Schema):
     class Meta:
-        # Fields to expose
         fields = ('id', 'name', 'address', 'vlan_id')
 
 
@@ -32,7 +33,6 @@ subnets_schema = SubnetSchema(many=True)
 
 class ReservedIPSchema(ma.Schema):
     class Meta:
-        # Fields to expose
         fields = ('id', 'ip_address', 'subnet_id')
 
 
@@ -40,20 +40,6 @@ reservedIP_schema = ReservedIPSchema()
 reservedIPs_schema = ReservedIPSchema(many=True)
 
 
-# endpoint to create new subnet
-@app.route("/subnets", methods=["POST"])
-def add_subnet():
-    name = request.json['name']
-    address = request.json['address']
-    vlan_id = request.json.get('vlan_id', None)
-    subnet = Subnet(name, address, vlan_id)
-
-    db.session.add(subnet)
-    db.session.commit()
-
-    return subnet_schema.jsonify(subnet)
-
-#not required
 
 
 

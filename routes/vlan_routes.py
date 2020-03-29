@@ -1,11 +1,10 @@
 
 from __main__ import app
-from models import Subnet
+from models.subnet import Subnet,db
 from __main__ import subnets_schema,subnet_schema
 from __main__ import reservedIPs_schema
 from flask import Flask, request, jsonify
 import ipaddress
-from models import db
 
 # endpoint to add vlan to subnet
 @app.route("/subnets/<id>/vlan", methods=["POST"])

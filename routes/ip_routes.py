@@ -1,10 +1,11 @@
 from __main__ import app
-from models import Subnet,ReservedIP
+from models.subnet import Subnet,db
+from models.reserved_ip import ReservedIP
 from __main__ import subnets_schema,subnet_schema
 from __main__ import reservedIPs_schema,reservedIP_schema
 from flask import Flask, request, jsonify
 import ipaddress
-from models import db
+
 
 # endpoint to reserve ip given the subnet
 @app.route("/subnets/<id>/ips", methods=["POST"])
