@@ -183,6 +183,25 @@ def info_subnet(id):
     })
 
 
+
+#Get details regarding an IP. (parent Subnet, free/used)
+# # endpoint to get ip info
+@app.route("/subnets/ip", methods=["GET"])
+def info_ip():
+    
+    ip_address = request.json['ip_address']
+    ip_address_reserv = ReservedIP.query.filter_by(ip_address=ip_address).first() 
+    if ip_address_reserv:
+        return jsonify({
+            "ip_address" : ip_address,
+             "free" : False,
+             "subnet" : subnet_schema.dump(ip_address_reserv.subnet)
+        })
+    else:
+        return "free ip address"
+
+
+
         # "subnet mask" : ipaddress.IPv4Address(subnet.address).netmask()
 
     # return jsonify({
