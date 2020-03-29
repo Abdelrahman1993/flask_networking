@@ -54,3 +54,14 @@ def subnet_delete(id):
         return subnet_schema.jsonify(subnet)
     else:
         return "subnet not found"
+
+
+
+
+
+  # return jsonify({
+    #     "address" : subnet.address,
+    #     "name" : subnet.name,
+    #     "vlan_id" : subnet.vlan_id,
+    #     "ips" : reservedIPs_schema.dump(subnet.reserved_ips)
+    # })
