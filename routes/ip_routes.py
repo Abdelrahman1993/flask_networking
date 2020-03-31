@@ -1,8 +1,8 @@
 from __main__ import app
 from models.subnet import Subnet,db
 from models.reserved_ip import ReservedIP
-from __main__ import subnets_schema,subnet_schema
-from __main__ import reservedIPs_schema,reservedIP_schema
+from models.subnet_schema import subnets_schema,subnet_schema
+from models.reserved_ip_schema import reservedIPs_schema,reservedIP_schema
 from flask import Flask, request, jsonify
 import ipaddress
 
@@ -26,6 +26,7 @@ def reserve_ip(id):
     return "Invalid ip for the subnet or already reserved"
 
 
+
 # endpoint to free ip from the subnet
 @app.route("/subnets/<id>/ips", methods=["DELETE"])
 def free_ip(id):
@@ -37,14 +38,14 @@ def free_ip(id):
             if item.ip_address == ip_address:
                 db.session.delete(subnet.reserved_ips[index])
                 db.session.commit()
-                return "deleted"
+                return "IP address has been set to be free"
                 break
 
     return "Not found"
 
 
-#Get details regarding an IP. (parent Subnet, free/used)
-# # endpoint to get ip info
+
+# endpoint to get ip info
 @app.route("/subnets/ip", methods=["GET"])
 def info_ip():
     

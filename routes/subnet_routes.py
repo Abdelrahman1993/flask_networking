@@ -1,7 +1,7 @@
 from __main__ import app
 from models.subnet import Subnet
-from __main__ import subnets_schema,subnet_schema
-from __main__ import reservedIPs_schema
+from models.subnet_schema import subnets_schema,subnet_schema
+from models.reserved_ip_schema import reservedIPs_schema
 from flask import Flask, request, jsonify
 import ipaddress
 from models.subnet import db
@@ -20,6 +20,8 @@ def add_subnet():
 
     return subnet_schema.jsonify(subnet)
 
+
+
 # endpoint to show all subnets
 @app.route("/subnets", methods=["GET"])
 def get_subnets():
@@ -27,7 +29,8 @@ def get_subnets():
     result = subnets_schema.dump(all_subnets)
     return jsonify(result)
 
-#Get details regarding a subnet. (VLAN ID, network IP, subnet mask, utilization percentage, subnet name)
+
+
 # endpoint to get subnet info
 @app.route("/subnets/<id>", methods=["GET"])
 def info_subnet(id):
@@ -65,17 +68,7 @@ def subnet_delete(id):
     if(subnet):
         db.session.delete(subnet)
         db.session.commit()
-        return subnet_schema.jsonify(subnet)
+        return "subnet " + str(subnet.name) +  "  deleted"
     else:
         return "subnet not found"
 
-
-
-
-
-  # return jsonify({
-    #     "address" : subnet.address,
-    #     "name" : subnet.name,
-    #     "vlan_id" : subnet.vlan_id,
-    #     "ips" : reservedIPs_schema.dump(subnet.reserved_ips)
-    # })

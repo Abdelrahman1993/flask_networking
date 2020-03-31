@@ -1,8 +1,8 @@
 
 from __main__ import app
 from models.subnet import Subnet,db
-from __main__ import subnets_schema,subnet_schema
-from __main__ import reservedIPs_schema
+from models.subnet_schema import subnets_schema,subnet_schema
+from models.reserved_ip_schema import reservedIPs_schema
 from flask import Flask, request, jsonify
 import ipaddress
 
